@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../static/css/s.css" th:href="@{../../css/s.css}">
+    <title>Update hotel</title>
+</head>
+<body>
+<div class="header container">
+    <h1 class="logo">Booking.com</h1>
+    <div>
+        <a th:href="@{/hotel/create}">
+            <button class="btn">Add hotel</button>
+        </a>
+        <button class="btn">Register</button>
+        <button class="btn">Sign in</button>
+    </div>
+</div>
+
+<div class="center-form">
+    <form class="search-form" th:action="@{/hotel}" th:method="put" enctype="multipart/form-data">
+        <select class="input" name="city">
+            <option th:each="cityName:${T(com.example.booking.address.City).values()}"
+                    th:text="${cityName}"
+                    th:value="${cityName}"
+                    th:selected="${cityName == hotel.city}"
+            ></option>
+        </select>
+        <input class="input" type="text" name="name" th:value="${hotel.name}">
+        <button class="btn secondary" type="submit">Update hotel</button>
+    </form>
+</div>
+
+<div class="center-form">
+    <form class="search-form" th:action="@{/room}" th:method="post">
+        <input class="input" type="number" name="number">
+        <input class="input" type="number" name="roomCount">
+        <button class="btn secondary" type="submit" th:name="hotelId" th:value="${hotel.id}">Add room</button>
+    </form>
+</div>
+
+<div class="container">
+    <table>
+        <tr>
+            <th>Room id</th>
+            <th>Room number</th>
+            <th>Room count</th>
+            <th>Delete</th>
+        </tr>
+
+        <tr th:each="room: ${hotel.getRooms()}">
+            <td th:text="${room.id}"></td>
+            <td th:text="${room.number}"></td>
+            <td th:text="${room.roomCount}"></td>
+            <td>
+                <form th:action="@{/room/{roomId}(roomId=${room.id})}" th:method="delete">
+                    <button type="submit" class="danger btn">Delete</button>
+                </form>
+            </td>
+
+        </tr>
+
+    </table>
+</div>
+
+</body>
+</html>

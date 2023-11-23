@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../static/css/s.css" th:href="@{../../css/s.css}">
+    <title>Rooms</title>
+</head>
+<body>
+<div class="header container">
+    <h1 class="logo">Booking.com</h1>
+    <div>
+        <a th:href="@{/hotel/create}">
+            <button class="btn">Add hotel</button>
+        </a>
+        <button class="btn">Register</button>
+        <button class="btn">Sign in</button>
+    </div>
+</div>
+
+
+<div th:if="${rooms} != null" class="container">
+    <div class="hotel-card" th:each="room: ${rooms}">
+        <h1 th:text="${room.number}"></h1>
+        <form th:action="@{/book
+        (
+         roomId = ${room.id},
+         startDate = ${param.get('startDate')},
+         endDate = ${param.get('endDate')}
+        )}" th:method="post">
+            <button class="btn secondary">Book now!</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../static/css/s.css" th:href="@{../../css/s.css}">
+    <title>Create hotel</title>
+</head>
+<body>
+<div class="header">
+    <h1 class="logo">Booking.com</h1>
+</div>
+
+<div class="center-form">
+    <form class="search-form" th:action="@{/hotel}" method="post" enctype="multipart/form-data">
+        <select class="input" name="city">
+            <option th:each="cityName:${T(com.example.booking.address.City).values()}"
+                    th:text="${cityName}"
+                    th:value="${cityName}"
+            ></option>
+        </select>
+        <input class="input" type="text" name="name">
+        <input class="input" type="file" name="picture">
+        <button class="btn secondary" type="submit">Create hotel</button>
+    </form>
+</div>
+</body>
+</html>

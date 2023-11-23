@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/s.css" th:href="@{./css/s.css}">
+    <title>Booking.com</title>
+</head>
+<body>
+<div class="header container">
+    <h1 class="logo">Booking.com</h1>
+    <div>
+        <a th:href="@{/hotel/create}">
+            <button class="btn">Add hotel</button>
+        </a>
+        <button class="btn">Register</button>
+        <button class="btn">Sign in</button>
+    </div>
+</div>
+
+<div class="center-form">
+    <form class="search-form" th:action="@{/hotel}" th:method="get">
+        <select class="input" name="city">
+            <option th:each="cityName:${T(com.example.booking.address.City).values()}"
+                    th:text="${cityName}"
+                    th:value="${cityName}"
+            ></option>
+        </select>
+        <input class="input" name="startDate" type="datetime-local">
+        <input class="input" name="endDate" type="datetime-local">
+        <input class="input" name="roomCount" type="number" placeholder="Number of rooms">
+        <button class="btn secondary" type="submit">Search</button>
+    </form>
+</div>
+
+<div class="container" th:if="${hotels} != null">
+    <div class="hotel-card" th:each="hotel: ${hotels}">
+        <a th:href="@{hotel/download/{id}(id=${hotel.id})}" download>
+            <div class="card-img">
+                <img th:src="@{img/{fileName}(fileName=${hotel.fileName})}"/>
+            </div>
+        </a>
+
+        <div class="hotel-card-content">
+            <h1 th:text="${hotel.name}"></h1>
+            <div>
+                <a th:href="@{hotel/{hotelId}/rooms(hotelId = ${hotel.id}, startDate = ${param.get('startDate')}, endDate = ${param.get('endDate')}, roomCount = ${param.get('roomCount')})}">
+                    <button class="btn secondary">See rooms</button>
+                </a>
+
+                <a th:href="@{hotel/{hotelId}/update(hotelId=${hotel.id})}">
+                    <button class="btn secondary">Edit hotel</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
